@@ -2,12 +2,14 @@
 
 namespace App\Exceptions;
 
+use Throwable;
+use app\Libraries\Core;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +51,27 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        /* only run if debug is turn off */
+        if (!env('APP_DEBUG', true)) {
+
+            $core = new Core;
+
+            /* handling 404 exception */
+            if ($exception instanceof NotFoundHttpException) {
+                return response()->json([
+                    'error' => 'Not Found',
+                ])->setStatusCode(404);
+            }
+            /* handling 500 exception */
+            $exception_name = get_class($exception);
+
+            $error = $core->log('error', "Exception ($exception_name) : " . $exception->getTraceAsString(), true);
+
+            return response()->json([
+                'error' => "Server problem, code [$error]",
+            ])->setStatusCode(500);
+        }
+
         return parent::render($request, $exception);
     }
 }
