@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use app\Libraries\Core;
+use App\Libraries\Core;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController

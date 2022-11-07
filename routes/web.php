@@ -1,6 +1,6 @@
 <?php
 
-use app\Libraries\Core;
+use App\Libraries\Core;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 

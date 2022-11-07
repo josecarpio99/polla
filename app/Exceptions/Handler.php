@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 use Throwable;
-use app\Libraries\Core;
+use App\Libraries\Core;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
