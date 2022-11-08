@@ -32,6 +32,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
+    const ROLES = ['superadmin', 'admin', 'pos'];
+
     public function getJWTIdentifier()
     {
        return $this->getKey();

@@ -1,6 +1,7 @@
 <?php
 
 /* registration */
+
 $router->post('/register', [ 'as' => 'register', 'uses' => 'AuthController@register']);
 
 /* login */
@@ -18,5 +19,12 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     /* refresh token */
     $router->get('/refresh-token', [ 'as' => 'refreshToken', 'uses' => 'AuthController@refresh']);
 
+    $router->group(['prefix' => 'user', 'as' => 'user'], function () use ($router) {
+        $router->get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+        $router->get('/{id}', ['as' => 'show', 'uses' => 'UserController@show']);
+        $router->post('/', ['as' => 'store', 'uses' => 'UserController@store']);
+        $router->put('/{id}', ['as' => 'update', 'uses' => 'UserController@update']);
+        $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'UserController@destroy']);
+    });
 
 });
