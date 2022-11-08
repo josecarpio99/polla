@@ -7,7 +7,7 @@ class Core
 {
     /**
      * Custom Response HTTP
-     * 
+     *
      * @param string $type type of response ['success','error', etc]
      * @param string $message response message
      * @param array $data response data
@@ -36,7 +36,7 @@ class Core
                 $message = $message;
                 $body = $data ;
                 $code = 404;
-        
+
         }
 
         $response =  [ $status  => $message ,$body => $data ];
@@ -55,8 +55,8 @@ class Core
 
     /**
      * custom log for loops
-     * 
-     * @param string $type type of log 
+     *
+     * @param string $type type of log
      * @param string $message log message
      * @param boolean $force force create log avoid config
      * @return string error ref.
@@ -73,14 +73,14 @@ class Core
             }
 
         }catch(\Exception $e){
-            
+
             Log::warning("[$error_ref]::log($type, $message) : " . $e->getMessage() );
 
         }
 
         return $error_ref;
 
-    
+
     }
 
 
@@ -98,7 +98,7 @@ class Core
             require $filename;
         }
     }
-    
+
     /**
      * generate Random String
      *
@@ -108,17 +108,17 @@ class Core
     public static function generateRandomString($length = 5) {
 
         $characters = config('erm.error.random_string', 'ABCDEFGHJKLMNPQRTUVWXYZ') ;
-        
+
         $charactersLength = strlen($characters);
-        
+
         $randomString = '';
-        
+
         for ($i = 0; $i < $length; $i++) {
-        
+
             $randomString .= $characters[rand(0, $charactersLength - 1)];
-        
+
         }
-        
+
         return $randomString;
     }
 

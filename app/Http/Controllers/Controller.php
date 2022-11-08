@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\Core;
+use App\Traits\ApiResponser;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    use ApiResponser;
+
     public $core;
 
     public function __construct()

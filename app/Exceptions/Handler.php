@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
             /* handling 404 exception */
             if ($exception instanceof NotFoundHttpException) {
                 return response()->json([
-                    'error' => 'Not Found',
+                    'error' => 'Object not Found',
                 ])->setStatusCode(404);
             }
             /* handling 500 exception */
