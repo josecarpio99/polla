@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -76,7 +77,11 @@ class AuthController extends Controller
             return $this->core->setResponse('error', 'Please check your email or password !', NULL, false , 400  );
         }
 
-        return $this->respondWithToken($token, 'login');
+        return response()->json([
+            'success' => 'Successfully login',
+            'data'    => new UserResource(auth()->user()),
+            'token'   => $token
+        ]);
     }
 
     /**
