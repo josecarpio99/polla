@@ -34,6 +34,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     const ROLES = ['superadmin', 'admin', 'pos'];
 
+    public function pos()
+    {
+        return $this->belongsToMany(User::class, 'user_pos', 'user_id', 'pos_id');
+    }
+
     public function getJWTIdentifier()
     {
        return $this->getKey();

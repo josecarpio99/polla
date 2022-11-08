@@ -16,25 +16,41 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $superAdmin = User::create([
             'email' => 'superadmin@test.com',
             'role'  => 'superadmin',
             'name'  => 'superadmin',
             'password'  => Hash::make('12345678'),
         ]);
 
-        User::create([
+        $admin = User::create([
             'email' => 'admin@test.com',
             'role'  => 'admin',
             'name'  => 'admin',
             'password'  => Hash::make('12345678'),
         ]);
 
-        User::create([
+        $pos1 = User::create([
             'email' => 'pos@test.com',
             'role'  => 'pos',
             'name'  => 'pos',
             'password'  => Hash::make('12345678'),
         ]);
+
+        $pos2 = User::create([
+            'email' => 'pos2@test.com',
+            'role'  => 'pos',
+            'name'  => 'pos2',
+            'password'  => Hash::make('12345678'),
+        ]);
+
+        $pos3 = User::create([
+            'email' => 'pos3@test.com',
+            'role'  => 'pos',
+            'name'  => 'pos3',
+            'password'  => Hash::make('12345678'),
+        ]);
+
+        $superAdmin->pos()->attach([$pos1->id, $pos2->id]);
     }
 }
