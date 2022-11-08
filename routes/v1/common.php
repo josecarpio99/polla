@@ -9,3 +9,8 @@ $router->get('/ping', [ 'as' => 'ping', function () use ($router) {
 $router->get('/version', [ 'as' => 'version', function () use ($router) {
     return $router->app->version();
 }]);
+
+/* test role admin */
+$router->get('/role/admin', ['middleware' => ['auth', 'role:pos'],function () use ($router) {
+    return response('llego');
+}]);
