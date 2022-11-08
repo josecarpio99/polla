@@ -7,6 +7,7 @@ $router->get('/ping', [ 'as' => 'ping', function () use ($router) {
 
 /* lumen version */
 $router->get('/version', [ 'as' => 'version', function () use ($router) {
+    dd(config('auth'));
     return $router->app->version();
 }]);
 
