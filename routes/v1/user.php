@@ -17,7 +17,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->post('/logout', [ 'as' => 'logout', 'uses' => 'AuthController@logout']);
 
     /* refresh token */
-    $router->get('/refresh-token', [ 'as' => 'refreshToken', 'uses' => 'AuthController@refresh']);
+    // $router->get('/refresh-token', [ 'as' => 'refreshToken', 'uses' => 'AuthController@refresh']);
 
     $router->group(['middleware' => 'role:superadmin', 'prefix' => 'user', 'as' => 'user'], function () use ($router) {
         $router->get('/', ['as' => 'index', 'uses' => 'UserController@index']);
@@ -25,6 +25,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->post('/', ['as' => 'store', 'uses' => 'UserController@store']);
         $router->put('/{id}', ['as' => 'update', 'uses' => 'UserController@update']);
         $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'UserController@destroy']);
+
+        $router->post('add-pos', ['uses' => 'AssignPosToUserController']);
     });
 
 });
