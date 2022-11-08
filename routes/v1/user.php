@@ -31,8 +31,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->post('add-pos', ['uses' => 'AssignPosToUserController']);
         });
 
-        $router->put('/', ['UpdateSettingsController']);
-
+        $router->get('/setting', ['uses' => 'SettingController@index']);
+        $router->put('/setting', ['uses' => 'SettingController@update']);
     });
 
 

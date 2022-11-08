@@ -6,15 +6,19 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateSettingsController extends Controller
+class SettingController extends Controller
 {
+    public function index()
+    {
+        return Setting::all();
+    }
     /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'play_cost'         => ['required', 'integer'],
@@ -25,8 +29,8 @@ class UpdateSettingsController extends Controller
             return $this->errorResponse($validator->messages()->first(), 400);
         }
 
-        Setting::where('name', 'play_cost')->update(['play_cost', $request->play_cost]);
-        Setting::where('name', 'system_percentage')->update(['system_percentage', $request->system_percentage]);
+        Setting::where('name', 'play_cost')->update(['value' => $request->play_cost]);
+        Setting::where('name', 'system_percentage')->update(['value' => $request->system_percentage]);
 
         return $this->successResponse(NULL, 'Settings updated successfully');
     }
