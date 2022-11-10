@@ -67,14 +67,14 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
 
-            return $this->core->setResponse('error', $validator->messages()->first(), NULL, false , 400  );
+            return $this->errorResponse($validator->messages()->first(), 400);
         }
 
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
 
-            return $this->core->setResponse('error', 'Please check your email or password !', NULL, false , 400  );
+            return $this->errorResponse('Usuario o contraseña incorrecto!', 400);
         }
 
         return response()->json([
@@ -113,7 +113,7 @@ class AuthController extends Controller
      */
     public function profile() {
 
-        return $this->core->setResponse('success', 'User Profile',  auth()->user());
+        return new UserResource(auth()->user());
     }
 
 

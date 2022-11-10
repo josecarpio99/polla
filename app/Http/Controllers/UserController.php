@@ -20,7 +20,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(10));
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'updated_at');
+        $sortDirection = request('sort_direction', 'desc');
+
+        $query = User::query()
+            ->whereNot('id', auth()->user()->id)
+            ->search($search)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
+
+        return UserResource::collection($query);
     }
 
     /**
@@ -79,7 +90,9 @@ class UserController extends Controller
         }
 
         $data = $validator->validated();
-        $data['password'] = Hash::make($data['password']);
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
 
         $user->update($data);
 
@@ -134,7 +147,7 @@ class UserController extends Controller
 
                 $validator = [
                     'name' => ['required', 'string'],
-                    'password' => ['required', 'min:6', 'max:50'],
+                    'password' => ['nullable', 'min:6', 'max:50'],
                     'email' => [
                         'required',
                         'email',

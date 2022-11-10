@@ -11,7 +11,7 @@ $router->post('/login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
     /* get user profile */
-    // $router->get('/profile', [ 'as' => 'profile', 'uses' => 'AuthController@profile']);
+    $router->get('/profile', [ 'as' => 'profile', 'uses' => 'AuthController@profile']);
 
     /* logout user */
     $router->post('/logout', [ 'as' => 'logout', 'uses' => 'AuthController@logout']);
@@ -21,7 +21,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->group(['middleware' => 'role:superadmin'], function () use ($router) {
 
-        $router->group(['prefix' => 'user', 'as' => 'user'], function () use ($router) {
+        $router->group(['prefix' => 'users', 'as' => 'users'], function () use ($router) {
             $router->get('/', ['as' => 'index', 'uses' => 'UserController@index']);
             $router->get('/{id}', ['as' => 'show', 'uses' => 'UserController@show']);
             $router->post('/', ['as' => 'store', 'uses' => 'UserController@store']);
