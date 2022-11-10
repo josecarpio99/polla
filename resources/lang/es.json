@@ -64,5 +64,8 @@
     "No change from": "No hay cambios desde",
     "Total Jobs Executed": "Total de jobs ejecutados",
     "Total Execution Time": "Tiempo total de ejecución",
-    "Average Execution Time": "Tiempo promedio de ejecución"
+    "Average Execution Time": "Tiempo promedio de ejecución",
+
+    "play_cost": "Costo de la jugada",
+    "system_percentage": "Porcentaje del sistema"
 }
