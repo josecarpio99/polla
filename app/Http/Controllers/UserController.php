@@ -34,6 +34,13 @@ class UserController extends Controller
         return UserResource::collection($query);
     }
 
+    public function pos()
+    {
+        return UserResource::collection(
+            User::where('role', 'pos')->get()
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -23,6 +23,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->group(['prefix' => 'users', 'as' => 'users'], function () use ($router) {
             $router->get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+            $router->get('/pos', ['as' => 'pos', 'uses' => 'UserController@pos']);
             $router->get('/{id}', ['as' => 'show', 'uses' => 'UserController@show']);
             $router->post('/', ['as' => 'store', 'uses' => 'UserController@store']);
             $router->put('/{id}', ['as' => 'update', 'uses' => 'UserController@update']);
