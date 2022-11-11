@@ -36,6 +36,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany(User::class, 'user_pos', 'user_id', 'pos_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_pos', 'pos_id', 'user_id');
+    }
+
     public function getJWTIdentifier()
     {
        return $this->getKey();
@@ -43,5 +48,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
       return [];
+    }
+
+    public static function booted()
+    {
+        static::deleting(function ($user) {
+            $user->users()->detach();
+            $user->pos()->detach();
+        });
     }
 }

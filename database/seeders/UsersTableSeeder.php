@@ -31,26 +31,26 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $pos1 = User::create([
-            'email' => 'pos@test.com',
+            'email' => 'taquilla1@test.com',
             'role'  => 'pos',
-            'name'  => 'pos',
+            'name'  => 'taquilla 1',
             'password'  => Hash::make('12345678'),
         ]);
 
         $pos2 = User::create([
-            'email' => 'pos2@test.com',
+            'email' => 'taquilla2@test.com',
             'role'  => 'pos',
-            'name'  => 'pos2',
+            'name'  => 'taquilla 2',
             'password'  => Hash::make('12345678'),
         ]);
 
         $pos3 = User::create([
-            'email' => 'pos3@test.com',
+            'email' => 'taquilla3@test.com',
             'role'  => 'pos',
-            'name'  => 'pos3',
+            'name'  => 'taquilla 3',
             'password'  => Hash::make('12345678'),
         ]);
 
-        $superAdmin->pos()->attach([$pos1->id, $pos2->id]);
+        $admin->pos()->attach([$pos1->id, $pos2->id]);
     }
 }
