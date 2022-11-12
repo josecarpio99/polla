@@ -94,6 +94,7 @@ class PlayController extends Controller
                     'race_track_id'                  => ['required', 'exists:race_tracks,id'],
                     'start_at'                       => ['required', 'date'],
                     'close_at'                       => ['required', 'date'],
+                    'status'                         => ['nullable', 'boolean'],
                     'races.*.number'                 => ['required', 'integer'],
                     'races.*.participants_number'    => ['required', 'integer', 'between:5,15'],
                     'prize.*.position'               => ['required', 'integer'],
