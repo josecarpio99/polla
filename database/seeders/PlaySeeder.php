@@ -27,11 +27,18 @@ class PlaySeeder extends Seeder
             ]
         ];
 
-        Play::create([
+        $play = Play::create([
             'race_track_id' => 1,
             'start_at'      => Carbon::today(),
-            'close_at'        => Carbon::today()->addHours(4),
-            'prize'         => json_encode($prize)
+            'close_at'      => Carbon::today()->addHours(4),
+            'prize'         => $prize
         ]);
+
+        for ($i=0; $i < 6; $i++) {
+            $play->races()->create([
+                'number'              => $i + 1,
+                'participants_number' => rand(5, 15)
+            ]);
+        }
     }
 }

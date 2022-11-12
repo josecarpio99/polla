@@ -14,4 +14,9 @@ class Play extends Model
     {
         return $this->belongsTo(RaceTrack::class);
     }
+
+    public function races()
+    {
+        return $this->hasMany(Race::class);
+    }
 }
