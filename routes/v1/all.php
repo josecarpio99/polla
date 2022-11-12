@@ -34,9 +34,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->group(['prefix' => 'plays', 'as' => 'plays'], function () use ($router) {
             $router->get('/', ['as' => 'index', 'uses' => 'PlayController@index']);
-            // $router->get('/pos', ['as' => 'pos', 'uses' => 'PlayController@pos']);
             // $router->get('/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
-            // $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
+            $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
             // $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
             // $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
         });

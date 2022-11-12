@@ -17,7 +17,7 @@ class RaceResource extends JsonResource
         return [
             'id'                 => $this->id,
             'number'             => $this->number,
-            'participantsNumber' => $this->participants_number,
+            'participants_number' => $this->participants_number,
             'removed'            => $this->removed
         ];
     }
