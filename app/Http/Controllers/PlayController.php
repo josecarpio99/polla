@@ -112,7 +112,13 @@ class PlayController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (! $play = Play::find($id)) {
+            return $this->notFound();
+        }
+
+        $play->delete();
+
+        return $this->noContentResponse();
     }
 
     private function validation($type = null, $request)
