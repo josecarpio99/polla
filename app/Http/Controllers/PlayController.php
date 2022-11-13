@@ -58,7 +58,10 @@ class PlayController extends Controller
      */
     public function show($id)
     {
-        //
+        if (! $play = Play::find($id)) {
+            return $this->notFound();
+        }
+        return response()->json(new PlayResource($play));
     }
 
     /**
@@ -70,7 +73,35 @@ class PlayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (! $play = Play::find($id)) {
+            return $this->notFound();
+        }
+        $validator = $this->validation('update', $request);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->messages()->first(), 400);
+        }
+
+        $data = $validator->validated();
+
+        $play->update([
+            'race_track_id' => $data['race_track_id'],
+            'prize'         => $data['prize'],
+            'start_at'      => $data['start_at'],
+            'close_at'      => $data['close_at'],
+        ]);
+
+        $playRacesIds = $play->races()->pluck('id')->toArray();
+        $raceIds = collect($data['races'])->pluck('id')->toArray();
+        if (array_diff($playRacesIds, $raceIds)) {
+            if ($play->tickets()->exists()) {
+                return $this->errorResponse('No puedes remover las carrera/s, ya existen tickets creados', 400);
+            }
+        }
+
+        $play->races()->createUpdateOrDelete($data['races']);
+
+        return $this->successResponse(new PlayResource($play));
     }
 
     /**
@@ -106,7 +137,15 @@ class PlayController extends Controller
             case 'update':
 
                 $validator = [
-                    'name' => ['required', 'string'],
+                    'race_track_id'                  => ['required', 'exists:race_tracks,id'],
+                    'start_at'                       => ['required', 'date'],
+                    'close_at'                       => ['required', 'date'],
+                    'status'                         => ['nullable', 'boolean'],
+                    'races.*.id'                     => ['nullable', 'exists:races,id'],
+                    'races.*.number'                 => ['required', 'integer'],
+                    'races.*.participants_number'    => ['required', 'integer', 'between:5,15'],
+                    'prize.*.position'               => ['required', 'integer'],
+                    'prize.*.percentage'             => ['required', 'integer']
                 ];
 
                 break;

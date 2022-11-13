@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             RaceTrackSeeder::class,
             PlaySeeder::class,
-            TicketSeeder::class,
+            // TicketSeeder::class,
         ]);
     }
 }

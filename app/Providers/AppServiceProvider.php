@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Macros\CreateUpdateOrDelete;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,5 +17,12 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Model::unGuard();
+
+        HasMany::macro('createUpdateOrDelete', function (iterable $records) {
+            /** @var HasMany */
+            $hasMany = $this;
+
+            return (new CreateUpdateOrDelete($hasMany, $records))();
+        });
     }
 }

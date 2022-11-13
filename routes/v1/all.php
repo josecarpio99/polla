@@ -36,7 +36,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->get('/', ['as' => 'index', 'uses' => 'PlayController@index']);
             // $router->get('/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
-            // $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
+            $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
             // $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
         });
 
