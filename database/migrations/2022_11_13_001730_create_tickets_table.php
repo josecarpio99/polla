@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('races', function (Blueprint $table) {
+        Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('play_id')->constrained()->onDelete('cascade');
-            $table->tinyInteger('number');
-            $table->tinyInteger('participants_number');
-            $table->string('removed')->nullable();
-            $table->json('result')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('code')->unique();
+            $table->float('price');
+            $table->tinyInteger('points')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('races');
+        Schema::dropIfExists('tickets');
     }
 };
