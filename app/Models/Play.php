@@ -19,4 +19,9 @@ class Play extends Model
     {
         return $this->hasMany(Race::class);
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }
