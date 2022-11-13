@@ -78,9 +78,38 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $playId, $id)
     {
-        //
+        if (! $play = Play::find($playId)) {
+            return $this->notFound();
+        }
+
+        if (! $ticket = Ticket::find($id)) {
+            return $this->notFound();
+        }
+
+        $validator = $this->validation('update', $request);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->messages()->first(), 400);
+        }
+
+        $data = $validator->validated();
+
+        $client = Client::updateOrCreate(
+            ['id_card' => $data['client']['id_card']],
+            ['name' => $data['client']['name']]
+        );
+
+        $ticket->update([
+            'client_id' => $client->id
+        ]);
+
+        foreach ($data['picks'] as $pick) {
+            $ticket->picks()->where('id', $pick['id'])->update(['picked' => $pick['picked']]);
+        }
+
+        return $this->successResponse(new TicketResource($ticket));
     }
 
     /**
@@ -113,7 +142,10 @@ class TicketController extends Controller
             case 'update':
 
                 $validator = [
-
+                    'client.id_card'  => ['required', 'integer'],
+                    'client.name'     => ['required', 'string'],
+                    'picks.*.id'      => ['required', 'exists:picks,id'],
+                    'picks.*.picked'  => ['required', 'integer'],
                 ];
 
                 break;
