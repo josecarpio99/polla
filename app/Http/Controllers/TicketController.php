@@ -16,9 +16,13 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($playId)
     {
-        //
+        if (! $play = Play::find($playId)) {
+            return $this->notFound();
+        }
+
+        return TicketResource::collection($play->tickets);
     }
 
     /**
@@ -66,9 +70,17 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($playId, $id)
     {
-        //
+        if (! $play = Play::find($playId)) {
+            return $this->notFound();
+        }
+
+        if (! $ticket = Ticket::find($id)) {
+            return $this->notFound();
+        }
+
+        return response()->json(new TicketResource($ticket));
     }
 
     /**
@@ -118,9 +130,19 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($playId, $id)
     {
-        //
+        if (! $play = Play::find($playId)) {
+            return $this->notFound();
+        }
+
+        if (! $ticket = Ticket::find($id)) {
+            return $this->notFound();
+        }
+
+        $ticket->delete();
+
+        return $this->noContentResponse();
     }
 
     private function validation($type = null, $request)

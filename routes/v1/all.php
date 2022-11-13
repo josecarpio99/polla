@@ -40,8 +40,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
 
             $router->group(['prefix' => '{playId}/tickets', 'as' => 'tickets'], function () use ($router) {
+                $router->get('/', ['as' => 'store', 'uses' => 'TicketController@index']);
+                $router->get('/{id}', ['as' => 'store', 'uses' => 'TicketController@show']);
                 $router->post('/', ['as' => 'store', 'uses' => 'TicketController@store']);
                 $router->put('/{id}', ['as' => 'store', 'uses' => 'TicketController@update']);
+                $router->delete('/{id}', ['as' => 'store', 'uses' => 'TicketController@destroy']);
             });
 
         });
