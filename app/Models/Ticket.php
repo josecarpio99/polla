@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+    public function picks()
+    {
+        return $this->hasMany(Pick::class);
+    }
+
     public static function booted()
     {
         static::creating(function($ticket) {
