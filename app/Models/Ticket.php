@@ -11,6 +11,16 @@ class Ticket extends Model
         return $this->hasMany(Pick::class);
     }
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function booted()
     {
         static::creating(function($ticket) {

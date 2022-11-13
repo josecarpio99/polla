@@ -38,6 +38,11 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
             $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
             $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
+
+            $router->group(['prefix' => '{playId}/tickets', 'as' => 'tickets'], function () use ($router) {
+                $router->post('/', ['as' => 'store', 'uses' => 'TicketController@store']);
+            });
+
         });
 
         $router->get('/settings', ['uses' => 'SettingController@index']);
