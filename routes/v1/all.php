@@ -51,6 +51,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
         $router->get('/settings', ['uses' => 'SettingController@index']);
         $router->put('/settings', ['uses' => 'SettingController@update']);
+
+        $router->get('/racetracks', ['uses' => 'RaceTrackController@index']);
     });
 
 
