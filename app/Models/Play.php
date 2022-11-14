@@ -10,6 +10,13 @@ class Play extends Model
         'prize' => 'array'
     ];
 
+    public function scopeSearch($query, $search)
+    {
+        return $query
+            ->where('start_at', 'like', '%' . $search . '%')
+            ->orWhere('close_at', 'like', '%' . $search . '%');
+    }
+
     public function raceTrack()
     {
         return $this->belongsTo(RaceTrack::class);

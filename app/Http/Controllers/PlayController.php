@@ -17,7 +17,18 @@ class PlayController extends Controller
      */
     public function index()
     {
-        return PlayResource::collection(Play::all());
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'updated_at');
+        $sortDirection = request('sort_direction', 'desc');
+
+        $query = Play::query()
+            ->search($search)
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
+
+
+        return PlayResource::collection($query);
     }
 
     /**

@@ -16,6 +16,7 @@ class PlayResource extends JsonResource
     {
         return [
             'id'          => $this->id,
+            'status'      => $this->status,
             'raceTrack'   => $this->raceTrack->name,
             'prize'       => $this->prize,
             'races'       => RaceResource::collection($this->races),
