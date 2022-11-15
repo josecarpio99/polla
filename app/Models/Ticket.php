@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
+
+    public function scopeSearch($query, $search)
+    {
+        return $query
+            ->where('code', 'like', '%' . $search . '%');
+    }
+
     public function picks()
     {
         return $this->hasMany(Pick::class);

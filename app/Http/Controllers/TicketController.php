@@ -16,13 +16,44 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($playId)
+    public function index($playId = null)
     {
-        if (! $play = Play::find($playId)) {
-            return $this->notFound();
+        if ($playId) {
+            if (! $play = Play::find($playId)) {
+                return $this->notFound();
+            }
+        } else {
+            $play = Play::orderBy('close_at', 'DESC')->first();
         }
 
-        return TicketResource::collection($play->tickets);
+        $perPage = request('per_page', 10);
+        $search = request('search', '');
+        $sortField = request('sort_field', 'created_at');
+        $sortDirection = request('sort_direction', 'desc');
+        $role = auth()->user()->role;
+
+        $query = Ticket::query()
+            ->with(['client'])
+            ->where('play_id', $play->id)
+            ->when($role !== 'superadmin', function($query) use($role) {
+                if ($role === 'admin') {
+                    $query->whereIn('user_id', auth()->user()->pos->pluck('id')->toArray());
+                } elseif($role === 'pos') {
+                    $query->where('user_id', auth()->user()->id);
+                }
+            })
+            ->where(function($query) use($search){
+                $query->where('code', 'like', '%' . $search . '%')
+                    ->orWhereHas('client', function($query) use ($search){
+                        $query->where('id_card', 'like', '%'.$search.'%')
+                            ->orWhere('name', 'like', '%'.$search.'%');
+                    });
+            })
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
+
+
+        return TicketResource::collection($query);
     }
 
     /**
