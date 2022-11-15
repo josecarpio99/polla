@@ -19,7 +19,7 @@ class PlayController extends Controller
     {
         $perPage = request('per_page', 10);
         $search = request('search', '');
-        $sortField = request('sort_field', 'updated_at');
+        $sortField = request('sort_field', 'close_at');
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Play::query()

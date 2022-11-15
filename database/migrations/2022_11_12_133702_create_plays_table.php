@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('race_track_id')->constrained();
             $table->json('prize');
             $table->boolean('status')->default(true);
-            $table->date('start_at');
+            $table->datetime('start_at');
             $table->dateTime('close_at');
             $table->timestamps();
         });
