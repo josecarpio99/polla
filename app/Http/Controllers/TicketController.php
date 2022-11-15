@@ -18,12 +18,8 @@ class TicketController extends Controller
      */
     public function index($playId = null)
     {
-        if ($playId) {
-            if (! $play = Play::find($playId)) {
-                return $this->notFound();
-            }
-        } else {
-            $play = Play::orderBy('close_at', 'DESC')->first();
+        if (! $play = Play::find($playId)) {
+            return $this->notFound();
         }
 
         $perPage = request('per_page', 10);
