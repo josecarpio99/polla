@@ -38,6 +38,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
             $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
             $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
+            $router->post('/{id}/toggle', ['as' => 'store', 'uses' => 'TogglePlayStatusController']);
 
             $router->group(['prefix' => '{playId}/tickets', 'as' => 'tickets'], function () use ($router) {
                 $router->get('/', ['as' => 'store', 'uses' => 'TicketController@index']);
