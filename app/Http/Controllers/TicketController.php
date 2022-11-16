@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Resources\TicketResource;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
@@ -64,6 +65,10 @@ class TicketController extends Controller
             return $this->notFound();
         }
 
+        if ($play->status == false || $play->close_at < Carbon::now()) {
+            return $this->errorResponse('No se puede crear el ticket, la jugada ha cerrado', 400);
+        }
+
         $validator = $this->validation('create', $request);
 
         if ($validator->fails()) {
@@ -80,7 +85,7 @@ class TicketController extends Controller
         $ticket = Ticket::create([
             'play_id'   => $playId,
             'client_id' => $client->id,
-            'user_id'   => $data['user_id'],
+            'user_id'   => auth()->user()->id,
             'price'     => config('settings.play_cost'),
         ]);
 
@@ -181,7 +186,6 @@ class TicketController extends Controller
                 $validator = [
                     'client.id_card'  => ['required', 'integer'],
                     'client.name'     => ['required', 'string'],
-                    'user_id'         => ['required', 'exists:users,id'],
                     'picks.*.race_id' => ['required', 'exists:races,id'],
                     'picks.*.picked'  => ['required', 'integer'],
                 ];

@@ -6,6 +6,7 @@ use App\Models\Play;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Resources\PlayResource;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class PlayController extends Controller
@@ -19,10 +20,15 @@ class PlayController extends Controller
     {
         $perPage = request('per_page', 10);
         $search = request('search', '');
+        $active = request('active', false);
         $sortField = request('sort_field', 'close_at');
         $sortDirection = request('sort_direction', 'desc');
 
         $query = Play::query()
+            ->when($active, function($query) {
+                $query->where('status', true)
+                    ->where('close_at', '>', Carbon::now());
+            })
             ->search($search)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);

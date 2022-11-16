@@ -15,17 +15,18 @@ class TicketResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'      => $this->id,
-            'code'    => $this->code,
-            'play_id' => $this->play_id,
-            'client'  => new ClientResource($this->client),
-            'user'    => [
+            'id'        => $this->id,
+            'code'      => $this->code,
+            'play_id'   => $this->play_id,
+            'client'    => new ClientResource($this->client),
+            'user'      => [
                 'id'   => $this->user->id,
                 'name' => $this->user->name,
             ],
-            'price'   => $this->price,
-            'points'  => $this->points,
-            'picks'   => PickResource::collection($this->picks),
+            'price'     => $this->price,
+            'points'    => $this->points,
+            'picks'     => PickResource::collection($this->picks),
+            'created_at' => $this->created_at
         ];
     }
 }
