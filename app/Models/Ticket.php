@@ -31,7 +31,9 @@ class Ticket extends Model
     public static function booted()
     {
         static::creating(function($ticket) {
-            $ticket->code = str_pad(Ticket::count() + 1, 6, '0', STR_PAD_LEFT);
+            $lastTicket = Ticket::orderBy('code', 'DESC')->first();
+            $code = (ltrim($lastTicket->code, '0')) + 1;
+            $ticket->code = str_pad($code, 6, '0', STR_PAD_LEFT);
         });
     }
 }

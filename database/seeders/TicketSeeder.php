@@ -19,7 +19,7 @@ class TicketSeeder extends Seeder
     public function run()
     {
         $play = Play::first();
-        for ($i=0; $i < 1; $i++) {
+        for ($i=0; $i < 10; $i++) {
             $ticket = Ticket::create([
                 'play_id'   => $play->id,
                 'client_id' => Client::all()->random()->id,
@@ -27,10 +27,13 @@ class TicketSeeder extends Seeder
                 'price'     => 2,
             ]);
 
-            $ticket->picks()->create([
-                'race_id' => $play->races->random()->id,
-                'picked'  => 5
-            ]);
+            $play->races->each(function($race) use($ticket) {
+                $ticket->picks()->create([
+                    'race_id' => $race->id,
+                    'picked'  => rand(1, $race->participants_number)
+                ]);
+            });
+
         }
     }
 }
