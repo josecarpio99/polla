@@ -32,7 +32,7 @@ class Ticket extends Model
     {
         static::creating(function($ticket) {
             $lastTicket = Ticket::orderBy('code', 'DESC')->first();
-            $code = (ltrim($lastTicket->code, '0')) + 1;
+            $code = ($lastTicket) ? $code = (ltrim($lastTicket->code, '0')) + 1 : 1;
             $ticket->code = str_pad($code, 6, '0', STR_PAD_LEFT);
         });
     }
