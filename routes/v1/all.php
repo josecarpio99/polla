@@ -36,11 +36,14 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->get('/', ['as' => 'index', 'uses' => 'PlayController@index']);
         $router->get('/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
 
+        $router->get('/{id}/ranking', ['as' => 'show', 'uses' => 'RankingTicketsController']);
+
         $router->group(['middleware' => 'role:superadmin'], function () use ($router) {
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
             $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
             $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
             $router->post('/{id}/toggle', ['as' => 'store', 'uses' => 'TogglePlayStatusController']);
+            $router->put('/{id}/update-points', ['as' => 'update', 'uses' => 'UpdateRacesPointsController']);
         });
 
         $router->group(['prefix' => '{playId}/tickets', 'as' => 'tickets'], function () use ($router) {

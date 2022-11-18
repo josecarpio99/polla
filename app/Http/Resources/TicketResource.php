@@ -17,6 +17,8 @@ class TicketResource extends JsonResource
         return [
             'id'        => $this->id,
             'code'      => $this->code,
+            'rank'      => $this->rank,
+            'points'    => $this->points,
             'play_id'   => $this->play_id,
             'client'    => new ClientResource($this->client),
             'user'      => [
@@ -24,9 +26,8 @@ class TicketResource extends JsonResource
                 'name' => $this->user->name,
             ],
             'price'     => $this->price,
-            'points'    => $this->points,
             'picks'     => PickResource::collection($this->picks),
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
         ];
     }
 }
