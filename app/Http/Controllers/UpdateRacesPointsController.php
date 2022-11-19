@@ -29,12 +29,15 @@ class UpdateRacesPointsController extends Controller
         if ($validator->fails()) {
             return $this->errorResponse($validator->messages()->first(), 400);
         }
+        foreach ($request->input('races') as $raceArr) {
+            $race = Race::find($raceArr['id']);
+            $race->result = $raceArr['result'];
+            $race->save();
 
-        foreach ($request->input('races') as $race) {
-            Race::where('id', $race['id'])->update(['result' => $race['result']]);
-            foreach ($race['result'] as $result) {
+            Pick::where('race_id', $race->id)->update(['points' => 0]);
+            foreach ($raceArr['result'] as $key => $result) {
                 Pick::query()
-                    ->where('race_id', $race['id'])
+                    ->where('race_id', $raceArr['id'])
                     ->where('picked', $result['number'])
                     ->update(['points' => $result['points']]);
             }
@@ -43,6 +46,21 @@ class UpdateRacesPointsController extends Controller
 
         foreach ($tickets as $ticket) {
             $ticket->points = $ticket->totalPoints;
+            $ticket->save();
+        }
+
+        $tickets = Ticket::where('play_id', $id)->orderBy('points', 'DESC')->get();
+
+        $play->loadMax('tickets', 'points');
+        $maxPoints = $play->tickets_max_points;
+        $rank = 1;
+
+        foreach ($tickets as $ticket) {
+            if ($ticket->points != $maxPoints) {
+                $maxPoints = $ticket->points;
+                $rank++;
+            }
+            $ticket->position = $rank;
             $ticket->save();
         }
 

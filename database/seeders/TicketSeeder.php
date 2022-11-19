@@ -19,7 +19,7 @@ class TicketSeeder extends Seeder
     public function run()
     {
         $play = Play::first();
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 25; $i++) {
             $ticket = Ticket::create([
                 'play_id'   => $play->id,
                 'client_id' => Client::all()->random()->id,

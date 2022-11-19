@@ -23,26 +23,10 @@ class RankingTicketsController extends Controller
             return $this->notFound();
         }
 
-        // $perPage = request('per_page', 20);
-        // $search = request('search', '');
-
-        // DB::select("set @maxPoints = (SELECT points FROM tickets WHERE play_id = $id ORDER BY points DESC LIMIT 1);");
-        // DB::select("set @curRank = 1;");
-
-        // $query = Ticket::query()
-        //     ->select(
-        //         '*',
-        //         DB::raw("@curRank := IF(points = @maxPoints, @curRank, @curRank + 1) AS rank"),
-        //         DB::raw("@maxPoints := IF(points = @maxPoints, @maxPoints, points) as maxPoints"),
-        //     )
-        //     ->where('play_id', $id)
-        //     ->orderBy('points', 'DESC')
-        //     ->paginate($perPage);
-
         $perPage = request('per_page', 20);
         $search = request('search', '');
-        $sortField = request('sort_field', 'points');
-        $sortDirection = request('sort_direction', 'desc');
+        $sortField = request('sort_field', 'position');
+        $sortDirection = request('sort_direction', 'asc');
 
         $query = Ticket::query()
             ->where('play_id', $play->id)
@@ -53,8 +37,6 @@ class RankingTicketsController extends Controller
             ->paginate($perPage);
 
 
-        return TicketRankingResource::collection($query)->additional(['meta' => [
-            'winners' => Ticket::getWinners($id),
-        ]]);
+        return TicketResource::collection($query);
     }
 }
