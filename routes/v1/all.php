@@ -7,6 +7,9 @@
 /* login */
 $router->post('/login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
 
+$router->get('/plays', ['as' => 'index', 'uses' => 'PlayController@index']);
+$router->get('/plays/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
+$router->get('/plays/{id}/ranking', ['as' => 'show', 'uses' => 'RankingTicketsController']);
 /* restrict route */
 $router->group(['middleware' => 'auth'], function () use ($router) {
 
@@ -33,10 +36,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     });
 
     $router->group(['prefix' => 'plays', 'as' => 'plays'], function () use ($router) {
-        $router->get('/', ['as' => 'index', 'uses' => 'PlayController@index']);
-        $router->get('/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
-
-        $router->get('/{id}/ranking', ['as' => 'show', 'uses' => 'RankingTicketsController']);
 
         $router->group(['middleware' => 'role:superadmin'], function () use ($router) {
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
@@ -83,3 +82,4 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
 
 });
+

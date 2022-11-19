@@ -23,7 +23,7 @@ class PlayController extends Controller
         $active = request('active', false);
         $sortField = request('sort_field', 'close_at');
         $sortDirection = request('sort_direction', 'desc');
-        $role = auth()->user()->role;
+        $role = auth()?->user()?->role;
 
 
         $query = Play::query()
@@ -32,6 +32,7 @@ class PlayController extends Controller
                     ->where('close_at', '>', Carbon::now());
             })
             ->withCount(['tickets as ticketsCount' => function($query) use($role) {
+                if (!$role) return;
                 if ($role === 'admin') {
                     $query->whereIn('user_id', auth()->user()->pos->pluck('id')->toArray());
                 } elseif($role === 'pos') {
@@ -87,6 +88,15 @@ class PlayController extends Controller
         if (! $play = Play::find($id)) {
             return $this->notFound();
         }
+        $play->loadCount('tickets as ticketsCount');
+        $play->loadSum('tickets as totalPrize', 'price');
+        $play->prize = $play->prize->map(function($prize, $key) use($play) {
+            $prize['total']   = $play->totalPrize * ($prize['percentage'] / 100);
+            $prize['winners'] = $play->tickets()->where('position', $prize['position'])->count();
+            $prize['earned']  = $prize['winners'] ? $prize['total'] / $prize['winners'] : 0;
+            return $prize;
+        });
+
         return response()->json(new PlayResource($play));
     }
 

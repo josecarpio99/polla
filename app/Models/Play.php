@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Play extends Model
 {
     protected $casts = [
-        'prize' => 'array'
+        'prize' => 'collection'
     ];
 
     public function scopeSearch($query, $search)
