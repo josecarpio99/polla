@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\TicketResource;
+use App\Http\Resources\TicketRankingResource;
 
 class RankingTicketsController extends Controller
 {
@@ -22,23 +23,38 @@ class RankingTicketsController extends Controller
             return $this->notFound();
         }
 
+        // $perPage = request('per_page', 20);
+        // $search = request('search', '');
+
+        // DB::select("set @maxPoints = (SELECT points FROM tickets WHERE play_id = $id ORDER BY points DESC LIMIT 1);");
+        // DB::select("set @curRank = 1;");
+
+        // $query = Ticket::query()
+        //     ->select(
+        //         '*',
+        //         DB::raw("@curRank := IF(points = @maxPoints, @curRank, @curRank + 1) AS rank"),
+        //         DB::raw("@maxPoints := IF(points = @maxPoints, @maxPoints, points) as maxPoints"),
+        //     )
+        //     ->where('play_id', $id)
+        //     ->orderBy('points', 'DESC')
+        //     ->paginate($perPage);
+
         $perPage = request('per_page', 20);
         $search = request('search', '');
-        $sortField = request('sort_field', 'close_at');
+        $sortField = request('sort_field', 'points');
         $sortDirection = request('sort_direction', 'desc');
 
-        DB::select("set @maxPoints = (SELECT points FROM tickets ORDER BY points DESC LIMIT 1);");
-        DB::select("set @curRank = 1;");
-
         $query = Ticket::query()
-            ->select(
-                '*',
-                DB::raw("@curRank := IF(points = @maxPoints, @curRank, @curRank + 1) AS rank"),
-                DB::raw("@maxPoints := IF(points = @maxPoints, @maxPoints, points) as maxPoints"),
-            )
-            ->orderBy('points', 'DESC')
+            ->where('play_id', $play->id)
+            ->where(function($query) use($search){
+                $query->where('code', 'like', '%' . $search . '%');
+            })
+            ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
 
-        return TicketResource::collection($query);
+
+        return TicketRankingResource::collection($query)->additional(['meta' => [
+            'winners' => Ticket::getWinners($id),
+        ]]);
     }
 }

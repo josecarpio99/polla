@@ -20,6 +20,7 @@ class PlayResource extends JsonResource
             'race_track_id' => $this->race_track_id,
             'raceTrack'     => $this->raceTrack,
             'prize'         => $this->prize,
+            'ticketsCount'  => $this->ticketsCount,
             'races'         => RaceResource::collection($this->races),
             'start_at'      => $this->start_at,
             'close_at'      => $this->close_at,

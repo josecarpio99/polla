@@ -54,8 +54,8 @@ class UpdateRacesPointsController extends Controller
         return [
             'races.*.id'                => ['required', 'exists:races,id'],
             'races.*.result.*.position' => ['required', 'integer'],
-            'races.*.result.*.number'   => ['required', 'integer'],
-            'races.*.result.*.points'   => ['required', 'integer']
+            'races.*.result.*.number'   => ['nullable', 'integer'],
+            'races.*.result.*.points'   => ['nullable', 'integer']
         ];
     }
 }

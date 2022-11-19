@@ -15,10 +15,11 @@ class RaceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                 => $this->id,
-            'number'             => $this->number,
+            'id'                  => $this->id,
+            'number'              => $this->number,
             'participants_number' => $this->participants_number,
-            'removed'            => $this->removed
+            'removed'             => $this->removed,
+            'result'              => $this->result
         ];
     }
 }

@@ -7,6 +7,29 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
 
+    public static function getWinners($playId, $positions = 2)
+    {
+        $winners = [];
+        $topScorers = Ticket::where('play_id', $playId)
+            ->groupBy('points')
+            ->orderBy('points', 'DESC')
+            ->take($positions)
+            ->pluck('points')
+            ->toArray();
+
+        foreach ($topScorers as $key => $score) {
+            $winners[] = [
+                'position' => $key + 1,
+                'ids'      => Ticket::where('play_id', $playId)
+                    ->where('points', '>', 0)
+                    ->where('points', $score)
+                    ->pluck('id')
+                    ->toArray()
+            ];
+        }
+        return $winners;
+    }
+
     public function scopeSearch($query, $search)
     {
         return $query

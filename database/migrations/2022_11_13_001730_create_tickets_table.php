@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->float('price');
             $table->tinyInteger('points')->nullable();
+            $table->smallInteger('position')->nullable();
             $table->timestamps();
         });
     }

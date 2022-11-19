@@ -23,12 +23,21 @@ class PlayController extends Controller
         $active = request('active', false);
         $sortField = request('sort_field', 'close_at');
         $sortDirection = request('sort_direction', 'desc');
+        $role = auth()->user()->role;
+
 
         $query = Play::query()
             ->when($active, function($query) {
                 $query->where('status', true)
                     ->where('close_at', '>', Carbon::now());
             })
+            ->withCount(['tickets as ticketsCount' => function($query) use($role) {
+                if ($role === 'admin') {
+                    $query->whereIn('user_id', auth()->user()->pos->pluck('id')->toArray());
+                } elseif($role === 'pos') {
+                    $query->where('user_id', auth()->user()->id);
+                }
+            }])
             ->search($search)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
