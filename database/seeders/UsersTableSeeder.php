@@ -17,13 +17,15 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $superAdmin = User::create([
-            'email' => 'superadmin@test.com',
-            'role'  => 'superadmin',
-            'name'  => 'superadmin',
+            'username'  => 'superadmin',
+            'email'     => 'superadmin@test.com',
+            'role'      => 'superadmin',
+            'name'      => 'superadmin',
             'password'  => Hash::make('12345678'),
         ]);
 
         $admin = User::create([
+            'username' => 'admin',
             'email' => 'admin@test.com',
             'role'  => 'admin',
             'name'  => 'admin',
@@ -31,6 +33,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $pos1 = User::create([
+            'username' => 'taquilla1',
             'email' => 'taquilla1@test.com',
             'role'  => 'pos',
             'name'  => 'taquilla 1',
@@ -38,6 +41,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $pos2 = User::create([
+            'username' => 'taquilla2',
             'email' => 'taquilla2@test.com',
             'role'  => 'pos',
             'name'  => 'taquilla 2',
@@ -45,6 +49,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $pos3 = User::create([
+            'username' => 'taquilla3',
             'email' => 'taquilla3@test.com',
             'role'  => 'pos',
             'name'  => 'taquilla 3',

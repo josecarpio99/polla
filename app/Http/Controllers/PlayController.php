@@ -93,7 +93,7 @@ class PlayController extends Controller
         $play->prize = $play->prize->map(function($prize, $key) use($play) {
             $prize['total']   = $play->totalPrize * ($prize['percentage'] / 100);
             $prize['winners'] = $play->tickets()->where('position', $prize['position'])->count();
-            $prize['earned']  = $prize['winners'] ? $prize['total'] / $prize['winners'] : 0;
+            $prize['earned']  = $prize['winners'] ? $prize['total'] / $prize['winners'] : $prize['total'];
             return $prize;
         });
 

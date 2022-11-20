@@ -70,7 +70,7 @@ class AuthController extends Controller
             return $this->errorResponse($validator->messages()->first(), 400);
         }
 
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
 
@@ -142,7 +142,7 @@ class AuthController extends Controller
             case 'login':
 
                 $validator = [
-                    'email' => 'required|string',
+                    'username' => 'required|string',
                     'password' => 'required|string',
                 ];
 

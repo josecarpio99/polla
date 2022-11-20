@@ -139,7 +139,8 @@ class UserController extends Controller
                 $validator = [
                     'name' => ['required', 'string'],
                     'password' => ['required', 'min:6', 'max:50'],
-                    'email' => ['required', 'email', 'unique:users,email'],
+                    'username' => ['required', 'min:6', 'max:30','alpha_num', 'unique:users,username'],
+                    'email' => ['nullable', 'email', 'unique:users,email'],
                     'role' => [
                         'required',
                         Rule::in(User::ROLES)
@@ -155,8 +156,15 @@ class UserController extends Controller
                 $validator = [
                     'name' => ['required', 'string'],
                     'password' => ['nullable', 'min:6', 'max:50'],
-                    'email' => [
+                    'username' => [
                         'required',
+                        'alpha_num',
+                        'min:6',
+                        'max:30',
+                        Rule::unique('users', 'username')->ignore($request->get('id'))
+                    ],
+                    'email' => [
+                        'nullable',
                         'email',
                         Rule::unique('users', 'email')->ignore($request->get('id'))
                     ],
