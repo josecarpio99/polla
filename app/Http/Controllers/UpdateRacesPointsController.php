@@ -34,11 +34,14 @@ class UpdateRacesPointsController extends Controller
             $race->result = $raceArr['result'];
             $race->save();
 
+            $race->updateNextPickForRemoved();
+
             Pick::where('race_id', $race->id)->update(['points' => 0]);
             foreach ($raceArr['result'] as $key => $result) {
                 Pick::query()
                     ->where('race_id', $raceArr['id'])
                     ->where('picked', $result['number'])
+                    ->orWhere('next_pick', $result['number'])
                     ->update(['points' => $result['points']]);
             }
         }

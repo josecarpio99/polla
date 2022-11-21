@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->foreignId('race_id')->constrained()->cascadeOnDelete();;
             $table->tinyInteger('picked');
+            $table->tinyInteger('next_pick')->nullable();
             $table->tinyInteger('points')->nullable();
         });
     }

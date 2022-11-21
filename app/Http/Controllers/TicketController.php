@@ -150,7 +150,10 @@ class TicketController extends Controller
         ]);
 
         foreach ($data['picks'] as $pick) {
-            $ticket->picks()->where('id', $pick['id'])->update(['picked' => $pick['picked']]);
+            $ticket->picks()->where('id', $pick['id'])->update([
+                'picked'    => $pick['picked'],
+                'next_pick' => NULL,
+            ]);
         }
 
         return $this->successResponse(new TicketResource($ticket));

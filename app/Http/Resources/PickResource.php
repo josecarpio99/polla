@@ -15,11 +15,12 @@ class PickResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'        => $this->id,
-            'ticket_id' => $this->ticket_id,
-            'picked'    => $this->picked,
-            'points'    => $this->points,
-            'race'      => new RaceResource($this->race)
+            'id'           => $this->id,
+            'ticket_id'    => $this->ticket_id,
+            'picked'       => $this->picked,
+            'next_pick'    => $this->next_pick,
+            'points'       => $this->points,
+            'race'         => new RaceResource($this->race)
         ];
     }
 }

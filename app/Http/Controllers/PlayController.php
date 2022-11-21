@@ -137,6 +137,10 @@ class PlayController extends Controller
 
         $play->races()->createUpdateOrDelete($data['races']);
 
+        foreach ($play->races as $key => $race) {
+            $race->updateNextPickForRemoved();
+        }
+
         return $this->successResponse(new PlayResource($play));
     }
 
@@ -170,7 +174,7 @@ class PlayController extends Controller
                     'status'                         => ['nullable', 'boolean'],
                     'races.*.number'                 => ['required', 'integer'],
                     'races.*.participants_number'    => ['required', 'integer', 'between:5,15'],
-                    'races.*.removed'                => ['nullable', 'regex:/^\d(?:,\d)*$/'],
+                    'races.*.removed'                => ['nullable', 'regex:/^\d+(?:,\d+)*$/'],
                     'prize.*.position'               => ['required', 'integer'],
                     'prize.*.percentage'             => ['required', 'integer']
                 ];
@@ -187,7 +191,7 @@ class PlayController extends Controller
                     'races.*.id'                     => ['nullable', 'exists:races,id'],
                     'races.*.number'                 => ['required', 'integer'],
                     'races.*.participants_number'    => ['required', 'integer', 'between:5,15'],
-                    'races.*.removed'                => ['nullable', 'regex:/^\d(?:,\d)*$/'],
+                    'races.*.removed'                => ['nullable', 'regex:/^\d+(?:,\d+)*$/'],
                     'prize.*.position'               => ['required', 'integer'],
                     'prize.*.percentage'             => ['required', 'integer']
                 ];
