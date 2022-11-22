@@ -34,6 +34,26 @@ class UserController extends Controller
         return UserResource::collection($query);
     }
 
+    public function list()
+    {
+        $role = auth()->user()->role;
+
+        $users = User::query()
+            ->select('id', 'username')
+            ->when($role !== 'superadmin', function($query) use($role) {
+                if ($role === 'admin') {
+                    $ids = auth()->user()->pos->pluck('id');
+                    $ids[] = auth()->user()->id;
+                    $query->whereIn('id', $ids);
+                } elseif($role === 'pos') {
+                    $query->where('id', auth()->user()->id);
+                }
+            })
+            ->get();
+
+        return response()->json($users);
+    }
+
     public function pos()
     {
         return UserResource::collection(

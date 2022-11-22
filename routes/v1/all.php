@@ -22,6 +22,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->group(['prefix' => 'users', 'as' => 'users'], function () use ($router) {
         $router->get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+        $router->get('/list', ['as' => 'show', 'uses' => 'UserController@list']);
         $router->get('/pos', ['as' => 'pos', 'uses' => 'UserController@pos']);
         $router->get('/{id}', ['as' => 'show', 'uses' => 'UserController@show']);
 
