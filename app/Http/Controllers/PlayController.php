@@ -47,6 +47,20 @@ class PlayController extends Controller
         return PlayResource::collection($query);
     }
 
+    public function list()
+    {
+        $plays = Play::query()
+            ->join('race_tracks', 'race_tracks.id', '=', 'plays.race_track_id')
+            ->select(
+                'plays.id',
+                'race_tracks.name',
+                'start_at',
+                'close_at'
+            )
+            ->get();
+        return response()->json($plays);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

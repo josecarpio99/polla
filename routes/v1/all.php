@@ -8,6 +8,7 @@
 $router->post('/login', [ 'as' => 'login', 'uses' => 'AuthController@login']);
 
 $router->get('/plays', ['as' => 'index', 'uses' => 'PlayController@index']);
+$router->get('/plays/list', ['as' => 'index', 'uses' => 'PlayController@list']);
 $router->get('/plays/{id}', ['as' => 'show', 'uses' => 'PlayController@show']);
 $router->get('/plays/{id}/ranking', ['as' => 'show', 'uses' => 'RankingTicketsController']);
 /* restrict route */
