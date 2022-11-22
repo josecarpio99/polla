@@ -37,6 +37,8 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
 
     $router->group(['prefix' => 'plays', 'as' => 'plays'], function () use ($router) {
 
+        $router->get('/{playId}/user/{userId}/sales', ['uses' => 'SalesAdjustmentController']);
+
         $router->group(['middleware' => 'role:superadmin'], function () use ($router) {
             $router->post('/', ['as' => 'store', 'uses' => 'PlayController@store']);
             $router->put('/{id}', ['as' => 'update', 'uses' => 'PlayController@update']);
