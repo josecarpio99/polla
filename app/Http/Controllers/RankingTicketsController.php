@@ -7,7 +7,6 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\TicketResource;
-use App\Http\Resources\TicketRankingResource;
 
 class RankingTicketsController extends Controller
 {

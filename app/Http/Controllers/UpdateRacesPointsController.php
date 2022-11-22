@@ -40,8 +40,12 @@ class UpdateRacesPointsController extends Controller
             foreach ($raceArr['result'] as $key => $result) {
                 Pick::query()
                     ->where('race_id', $raceArr['id'])
-                    ->where('picked', $result['number'])
-                    ->orWhere('next_pick', $result['number'])
+                    ->where(function($query) use ($result){
+                        $query->where('picked', $result['number']);
+                        $query->orWhere('next_pick', $result['number']);
+                    })
+                    // ->where('picked', $result['number'])
+                    // ->orWhere('next_pick', $result['number'])
                     ->update(['points' => $result['points']]);
             }
         }
