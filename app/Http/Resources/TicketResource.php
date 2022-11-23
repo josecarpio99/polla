@@ -26,6 +26,8 @@ class TicketResource extends JsonResource
                 'name' => $this->user->name,
             ],
             'price'     => $this->price,
+            'status'    => $this->status,
+            'earned'    => $this->earned,
             'picks'     => PickResource::collection($this->picks),
             'created_at' => $this->created_at,
         ];

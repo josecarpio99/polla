@@ -48,6 +48,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
             $router->delete('/{id}', ['as' => 'destroy', 'uses' => 'PlayController@destroy']);
             $router->post('/{id}/toggle', ['as' => 'store', 'uses' => 'TogglePlayStatusController']);
             $router->put('/{id}/update-points', ['as' => 'update', 'uses' => 'UpdateRacesPointsController']);
+            $router->put('/{playId}/tickets/update-winners', ['as' => 'update', 'uses' => 'UpdateTicketsStatusController']);
         });
 
         $router->group(['prefix' => '{playId}/tickets', 'as' => 'tickets'], function () use ($router) {

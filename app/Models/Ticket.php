@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
 
+    const WINNER  = 1;
+    const LOSER   = 2;
+    const PENDING = 3;
+
     public static function getWinners($playId, $positions = 2)
     {
         $winners = [];

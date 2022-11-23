@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Ticket;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +21,10 @@ return new class extends Migration
             $table->foreignId('client_id')->nullable()->constrained()->nullOnDelete();
             $table->string('code')->unique();
             $table->float('price');
-            $table->tinyInteger('points')->nullable();
+            $table->tinyInteger('points')->nullable()->default(0);
             $table->smallInteger('position')->nullable();
+            $table->tinyInteger('status')->default(Ticket::PENDING);
+            $table->float('earned')->nullable();
             $table->timestamps();
         });
     }

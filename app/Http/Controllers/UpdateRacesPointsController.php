@@ -44,8 +44,6 @@ class UpdateRacesPointsController extends Controller
                         $query->where('picked', $result['number']);
                         $query->orWhere('next_pick', $result['number']);
                     })
-                    // ->where('picked', $result['number'])
-                    // ->orWhere('next_pick', $result['number'])
                     ->update(['points' => $result['points']]);
             }
         }

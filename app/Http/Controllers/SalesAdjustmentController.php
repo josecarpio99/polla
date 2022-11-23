@@ -49,7 +49,7 @@ class SalesAdjustmentController extends Controller
             'totalSell'        => $play->totalSell,
             'sellerAmount'     => $play->sellerAmount,
             'deliverToBank'    => $play->totalSell - $play->sellerAmount,
-            'systemPercetange' => config('settings.system_percentage')
+            'systemPercentage' => config('settings.system_percentage')
         ]);
     }
 
@@ -79,7 +79,7 @@ class SalesAdjustmentController extends Controller
             'totalSell'        => $play->totalSell,
             'sellerAmount'     => $play->sellerAmount,
             'deliverToBank'    => $play->totalSell - $play->sellerAmount,
-            'systemPercetange' => config('settings.system_percentage')
+            'systemPercentage' => config('settings.system_percentage')
         ]);
     }
 }
