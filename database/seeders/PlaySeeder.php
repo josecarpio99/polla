@@ -30,7 +30,7 @@ class PlaySeeder extends Seeder
         $play = Play::create([
             'race_track_id' => 1,
             'start_at'      => Carbon::today(),
-            'close_at'      => Carbon::today()->addHours(4),
+            'close_at'      => Carbon::today()->hour(22),
             'prize'         => $prize
         ]);
 
