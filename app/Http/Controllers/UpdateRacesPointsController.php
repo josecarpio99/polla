@@ -38,6 +38,7 @@ class UpdateRacesPointsController extends Controller
 
             Pick::where('race_id', $race->id)->update(['points' => 0]);
             foreach ($raceArr['result'] as $key => $result) {
+                if(empty($result['number']) || empty($result['points'])) continue;
                 Pick::query()
                     ->where('race_id', $raceArr['id'])
                     ->where(function($query) use ($result){
