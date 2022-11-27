@@ -104,10 +104,13 @@ class PlayController extends Controller
         }
         $play->loadCount('tickets as ticketsCount');
         $play->loadSum('tickets as totalPrize', 'price');
+        $play->totalPrizePayout = number_format($play->totalPrize * ($play->prize->sum('percentage') / 100), 2);
         $play->prize = $play->prize->map(function($prize, $key) use($play) {
-            $prize['total']   = $play->totalPrize * ($prize['percentage'] / 100);
+            $prize['total']   = number_format($play->totalPrize * ($prize['percentage'] / 100), 2);
             $prize['winners'] = $play->tickets()->where('position', $prize['position'])->count();
-            $prize['earned']  = $prize['winners'] ? $prize['total'] / $prize['winners'] : $prize['total'];
+            $prize['earned']  = $prize['winners'] ?
+                number_format($prize['total'] / $prize['winners'], 2) :
+                $prize['total'];
             return $prize;
         });
 
