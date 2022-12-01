@@ -26,7 +26,6 @@ class UserController extends Controller
         $sortDirection = request('sort_direction', 'desc');
 
         $query = User::query()
-            ->whereNot('id', auth()->user()->id)
             ->search($search)
             ->orderBy($sortField, $sortDirection)
             ->paginate($perPage);
